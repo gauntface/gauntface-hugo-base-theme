@@ -1,7 +1,7 @@
-import {OnLoad} from '../utils/_onload';
+import {OnLoad} from '../utils/_onload.js';
 
 OnLoad(function() {
-  const scripts = document.querySelectorAll<HTMLLinkElement>('link[rel="preload"][as="script"]')
+  const scripts = document.querySelectorAll('link[rel="preload"][as="script"]')
   for (const s of scripts) {
     const script = document.createElement('script');
     script.src = s.href;

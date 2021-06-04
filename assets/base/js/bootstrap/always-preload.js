@@ -1,10 +1,10 @@
-import {OnLoad} from '../utils/_onload';
+import {OnLoad} from '../utils/_onload.js';
 
 function analytics() {
-  (<any>window).dataLayer = [];
+  window.dataLayer = [];
 
-  function gtag(...any: (string | Date)[]) {
-    (<any>window).dataLayer.push(arguments);
+  function gtag() {
+    window.dataLayer.push(arguments);
   }
   gtag('js', new Date());
   gtag('config', 'UA-161686512-1');
@@ -15,7 +15,7 @@ function analytics() {
 }
 
 function asyncPreloadCSS() {
-  const styles = document.querySelectorAll<HTMLLinkElement>('link[rel="preload"][as="style"]')
+  const styles = document.querySelectorAll('link[rel="preload"][as="style"]')
   for (const s of styles) {
     const l = document.createElement('link');
     l.href = s.href;
@@ -25,7 +25,7 @@ function asyncPreloadCSS() {
 }
 
 function asyncDataSrc() {
-  const elements = document.querySelectorAll<HTMLIFrameElement>("[data-src]");
+  const elements = document.querySelectorAll("[data-src]");
   for (const e of elements) {
     e.src = e.dataset.src;
   }

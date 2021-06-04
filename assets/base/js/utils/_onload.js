@@ -1,4 +1,4 @@
-function OnLoad(f: () => void) {
+function OnLoad(f) {
   window.addEventListener('load', f)
   if (document.readyState == 'complete') {
     f();
