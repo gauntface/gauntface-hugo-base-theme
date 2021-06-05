@@ -15,6 +15,9 @@ function analytics() {
 }
 
 function asyncPreloadCSS() {
+  /**
+   * @type {NodeListOf<HTMLLinkElement>} styles
+   */
   const styles = document.querySelectorAll('link[rel="preload"][as="style"]')
   for (const s of styles) {
     const l = document.createElement('link');
@@ -25,6 +28,9 @@ function asyncPreloadCSS() {
 }
 
 function asyncDataSrc() {
+  /**
+   * @type {NodeListOf<HTMLIFrameElement>} elements
+   */
   const elements = document.querySelectorAll("[data-src]");
   for (const e of elements) {
     e.src = e.dataset.src;
