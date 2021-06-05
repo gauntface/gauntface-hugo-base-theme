@@ -1,19 +1,5 @@
 import {OnLoad} from '../utils/_onload.js';
 
-function analytics() {
-  window.dataLayer = [];
-
-  function gtag() {
-    window.dataLayer.push(arguments);
-  }
-  gtag('js', new Date());
-  gtag('config', 'UA-161686512-1');
-
-  const s = document.createElement('script');
-  s.src = "https://www.googletagmanager.com/gtag/js?id=UA-161686512-1";
-  document.body.appendChild(s);
-}
-
 function asyncPreloadCSS() {
   /**
    * @type {NodeListOf<HTMLLinkElement>} styles
@@ -38,7 +24,6 @@ function asyncDataSrc() {
 }
 
 function run() {
-  analytics();
   asyncDataSrc();
   asyncPreloadCSS();
 }
