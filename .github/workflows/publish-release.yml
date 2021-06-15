@@ -24,9 +24,8 @@ jobs:
           rm -rf src/
           rm ./*
           rm .gitignore
-          cd build/
-          mv * ../
-          cd ..
+          cd build/ && mv * ../
+          ls -l
           rm -rf build/
       - name: Commit theme
         run: |
