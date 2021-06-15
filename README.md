@@ -14,14 +14,10 @@ npm install -g postcss-cli
 
 ## Development
 
-Make sure you have typescript installed.
+Development is done on the dev branch and built like so:
 
 ```
-npm install -g typescript
-```
-
-Then test development with:
-
-```
-tsc
+git checkout -b dev
+npm install
+npm run build
 ```
