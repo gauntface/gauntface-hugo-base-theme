@@ -11,3 +11,17 @@ Then add the node modules used for assets.
 ```
 npm install -g postcss-cli
 ```
+
+## Development
+
+Make sure you have typescript installed.
+
+```
+npm install -g typescript
+```
+
+Then test development with:
+
+```
+tsc
+```
