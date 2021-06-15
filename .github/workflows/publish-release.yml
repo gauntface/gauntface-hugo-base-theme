@@ -1,0 +1,20 @@
+name: Publish Release
+  workflow_dispatch:
+  release:
+    types:
+      - published
+jobs:
+  publish-main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Build theme
+        run: npm run build
+      - name: Commit theme
+        run: |
+          git config --global user.name 'Matt Gaunt'
+          git config --global user.email 'hello@gaunt.dev'
+          git commit -am "Automated release"
+          git push -f origin/release
