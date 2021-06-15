@@ -13,9 +13,23 @@ jobs:
         run: npm install
       - name: Build theme
         run: npm run build
-      - name: Commit theme
+      - name: Prep Release
         run: |
           git config --global user.name 'Matt Gaunt'
           git config --global user.email 'hello@gaunt.dev'
+          git checkout -b release
+          rm -rf .github/
+          rm -rf .tmp/
+          rm -rf node_modules/
+          rm -rf src/
+          rm ./*
+          rm .gitignore
+          cd build/
+          mv * ../
+          cd ..
+          rm -rf build/
+      - name: Commit theme
+        run: |
+          git add .
           git commit -am "Automated release"
           git push -f origin/release
