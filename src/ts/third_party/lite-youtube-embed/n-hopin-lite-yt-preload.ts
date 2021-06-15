@@ -1,4 +1,4 @@
-import {OnLoad} from '../../js/utils/_onload';
+import {OnLoad} from '../../utils/_onload';
 
 class LiteYTEmbed {
 
@@ -29,7 +29,7 @@ class LiteYTEmbed {
   }
 
   addIframe(){
-    const iframeHTML = `<iframe 
+    const iframeHTML = `<iframe
     allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen
     src="https://www.youtube-nocookie.com/embed/${this.videoID}?autoplay=1"
     style="width:100%;height:100%;border:none;"

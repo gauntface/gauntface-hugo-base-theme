@@ -1,7 +1,4 @@
-/**
- * @param {() => void} f
- */
-function OnLoad(f) {
+function OnLoad(f: () => void) {
   window.addEventListener('load', f)
   if (document.readyState == 'complete') {
     f();

@@ -1,10 +1,7 @@
 import {OnLoad} from '../utils/_onload.js';
 
 function asyncPreloadCSS() {
-  /**
-   * @type {NodeListOf<HTMLLinkElement>} styles
-   */
-  const styles = document.querySelectorAll('link[rel="preload"][as="style"]')
+  const styles = document.querySelectorAll('link[rel="preload"][as="style"]') as NodeListOf<HTMLLinkElement>;
   for (const s of styles) {
     const l = document.createElement('link');
     l.href = s.href;
@@ -14,10 +11,7 @@ function asyncPreloadCSS() {
 }
 
 function asyncDataSrc() {
-  /**
-   * @type {NodeListOf<HTMLIFrameElement>} elements
-   */
-  const elements = document.querySelectorAll("[data-src]");
+  const elements = document.querySelectorAll("[data-src]") as NodeListOf<HTMLIFrameElement>;
   for (const e of elements) {
     e.src = e.dataset.src;
   }

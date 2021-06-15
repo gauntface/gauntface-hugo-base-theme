@@ -5,7 +5,7 @@ const {terser} = require('rollup-plugin-terser');
 
 // Left here in case debugging is needed
 const includeSourcemaps = false;
-const srcDir = path.join(process.cwd(), 'src', 'js');
+const srcDir = path.join(process.cwd(), '.tmp');
 const buildDir = path.join(process.cwd(), 'build', 'assets', 'base', 'js');
 
 const globPattern = path.posix.join('**', '*.js');

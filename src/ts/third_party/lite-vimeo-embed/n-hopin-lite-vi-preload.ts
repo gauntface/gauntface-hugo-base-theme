@@ -1,4 +1,4 @@
-import {OnLoad} from '../../js/utils/_onload';
+import {OnLoad} from '../../utils/_onload';
 
 class LiteVimeoEmbed {
 
@@ -29,7 +29,7 @@ class LiteVimeoEmbed {
   }
 
   addIframe(){
-    const iframeHTML = `<iframe 
+    const iframeHTML = `<iframe
     allow="autoplay; picture-in-picture" allowfullscreen
     src="https://player.vimeo.com/video/${this.videoID}?color=ffffff&title=0&byline=0&portrait=0"
     style="width:100%;height:100%;border:none;"
