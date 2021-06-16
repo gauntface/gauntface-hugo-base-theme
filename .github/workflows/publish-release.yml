@@ -22,7 +22,9 @@ jobs:
           git config --global user.name 'Matt Gaunt'
           git config --global user.email 'hello@gaunt.dev'
           git checkout -b release
-          rm -rf .*
+          rm -rf *
+          rm -rf .github
+          rm -rf .gitignore
           cp -r /tmp/hugo-base-theme/** ./
           ls -l
       - name: Commit theme
