@@ -27,4 +27,4 @@ jobs:
       - name: Commit theme
         run: |
           git commit -am "Automated release"
-          git push -f origin/release
+          git push -f origin release
