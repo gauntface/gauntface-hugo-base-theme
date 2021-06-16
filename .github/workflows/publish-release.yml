@@ -24,6 +24,7 @@ jobs:
           git checkout -b release
           rm -rf *
           cp -r /tmp/hugo-base-theme/** ./
+          ls -l
       - name: Commit theme
         run: |
           git commit -am "Automated release"
