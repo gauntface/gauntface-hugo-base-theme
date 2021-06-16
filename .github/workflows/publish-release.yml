@@ -22,10 +22,11 @@ jobs:
           git config --global user.name 'Matt Gaunt'
           git config --global user.email 'hello@gaunt.dev'
           git checkout -b release
-          rm -rf *
+          rm -rf .*
           cp -r /tmp/hugo-base-theme/** ./
           ls -l
       - name: Commit theme
         run: |
+          git add .
           git commit -am "Automated release"
           git push -f origin release
