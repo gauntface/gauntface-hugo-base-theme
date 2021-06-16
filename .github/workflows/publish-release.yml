@@ -1,11 +1,11 @@
 name: Publish Release
 on:
   workflow_dispatch:
-  release:
-    types:
-      - published
+  push:
+    branches:
+      - main
 jobs:
-  publish-main:
+  publish-release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
