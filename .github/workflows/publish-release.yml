@@ -24,7 +24,6 @@ jobs:
           git checkout -b release
           rm -rf *
           rm -rf .github
-          rm -rf .gitignore
           cp -r /tmp/hugo-base-theme/** ./
           ls -l
       - name: Commit theme
