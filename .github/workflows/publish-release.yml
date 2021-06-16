@@ -15,20 +15,15 @@ jobs:
         run: npm run build
       - name: Prep Release
         run: |
+          rm -rf /tmp/hugo-base-theme
+          mkdir -p /tmp/hugo-base-theme
+          cp build/ /tmp/hugo-base-theme
           git config --global user.name 'Matt Gaunt'
           git config --global user.email 'hello@gaunt.dev'
           git checkout -b release
-          rm -rf .github/
-          rm -rf .tmp/
-          rm -rf node_modules/
-          rm -rf src/
-          rm ./*
-          rm .gitignore
-          cd build/ && mv * ../
-          ls -l
-          rm -rf build/
+          rm -rf .
+          cp /tmp/hugo-base-theme/ ./
       - name: Commit theme
         run: |
-          git add .
           git commit -am "Automated release"
           git push -f origin/release
