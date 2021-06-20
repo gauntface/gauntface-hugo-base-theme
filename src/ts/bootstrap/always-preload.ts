@@ -1,5 +1,9 @@
 import {OnLoad} from '../utils/_onload.js';
 
+function addJSClass() {
+  document.body.classList.add('u-js-loaded');
+}
+
 function asyncPreloadCSS() {
   const styles = document.querySelectorAll('link[rel="preload"][as="style"]') as NodeListOf<HTMLLinkElement>;
   for (const s of styles) {
@@ -18,6 +22,7 @@ function asyncDataSrc() {
 }
 
 function run() {
+  addJSClass();
   asyncDataSrc();
   asyncPreloadCSS();
 }
