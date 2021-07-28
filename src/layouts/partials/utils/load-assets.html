@@ -5,8 +5,13 @@
   {{- $path := index $sections 1 -}}
   <!-- Add all the css files. -->
   {{- if (strings.HasSuffix $path ".css") -}}
+    {{- if (eq hugo.Environment "production") -}}
     {{ $style := resources.Get $path | resources.PostCSS }}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+    {{- else -}}
+    {{ $style := resources.Get $path }}
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+    {{- end -}}
   {{ end -}}
 
   <!-- Add all the JS files. -->
@@ -36,9 +41,9 @@
 <!-- Add all the JSON assets. -->
 {{- if $.Site.Data.hopin -}}
 {{- range $.Site.Data.hopin -}}
-  
+
   {{- if .css -}}
-    
+
   {{- range .css.sync -}}
   <link rel="stylesheet" href="{{- . -}}">
   {{ end -}}
