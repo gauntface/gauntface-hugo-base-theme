@@ -2,3 +2,4 @@ node_modules/
 .tmp/
 test/example-site/public/
 test/example-site/resources/
+test/example-site/themes/base-theme/
