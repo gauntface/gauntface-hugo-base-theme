@@ -11,19 +11,19 @@
 {{- end -}}
 
 {{- define "base-load-css-js-add-asset" -}}
-  {{- if (strings.HasSuffix $path ".css") -}}
+  {{- if (strings.HasSuffix $.path ".css") -}}
     {{- if (eq hugo.Environment "production") -}}
-      {{ $style := resources.Get $path | resources.PostCSS }}
+      {{ $style := resources.Get $.path | resources.PostCSS }}
       {{ template "base-load-css-js-add-css" (dict "link" $style.RelPermalink)}}
     {{- else -}}
-      {{ $style := resources.Get $path }}
+      {{ $style := resources.Get $.path }}
       {{ template "base-load-css-js-add-css" (dict "link" $style.RelPermalink)}}
     {{- end -}}
   {{ end -}}
 
   <!-- Add all the JS files. -->
-  {{- if (strings.HasSuffix $path ".js") -}}
-    {{ $script := resources.Get $path }}
+  {{- if (strings.HasSuffix $.path ".js") -}}
+    {{ $script := resources.Get $.path }}
     {{ template "base-load-css-js-add-js" (dict "link" $script.RelPermalink)}}
   {{ end -}}
 {{- end -}}
