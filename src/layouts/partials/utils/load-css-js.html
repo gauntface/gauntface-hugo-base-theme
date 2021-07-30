@@ -1,0 +1,94 @@
+{{- define "base-load-css-js-add-css" -}}
+  {{ if (strings.HasSuffix $path ".css") }}
+  <link rel="stylesheet" href="$link">
+  {{ end }}
+{{- end -}}
+
+{{- define "base-load-css-js-add-js" -}}
+  {{ if (strings.HasSuffix $path ".js") }}
+  <script type="module" type="text/javascript" src="{{ $link }}"></script>
+  {{ end }}
+{{- end -}}
+
+{{- define "base-load-css-js-add-asset" -}}
+  {{- if (strings.HasSuffix $path ".css") -}}
+    {{- if (eq hugo.Environment "production") -}}
+      {{ $style := resources.Get $path | resources.PostCSS }}
+      {{ template "base-load-css-js-add-css" (dict "link" $style.RelPermalink)}}
+    {{- else -}}
+      {{ $style := resources.Get $path }}
+      {{ template "base-load-css-js-add-css" (dict "link" $style.RelPermalink)}}
+    {{- end -}}
+  {{ end -}}
+
+  <!-- Add all the JS files. -->
+  {{- if (strings.HasSuffix $path ".js") -}}
+    {{ $script := resources.Get $path }}
+    {{ template "base-load-css-js-add-js" (dict "link" $script.RelPermalink)}}
+  {{ end -}}
+{{- end -}}
+
+{{- define "base-load-css-js-file" -}}
+  {{ if in $.path "assets" }}
+    {{- $sections := split $.path "assets" -}}
+    {{- $path := index $sections 1 -}}
+    {{ template "base-load-css-js-add-asset" (dict "path" $path) }}
+  {{ else if in $.path "static" }}
+    {{- $sections := split $.path "static" -}}
+    {{- $path := index $sections 1 -}}
+    {{ template "base-load-css-js-add-css" (dict "link" $path)}}
+    {{ template "base-load-css-js-add-js" (dict "link" $path)}}
+  {{ end }}
+{{- end -}}
+
+{{- define "base-load-css-js-dir" -}}
+  {{- range (readDir $.dir) -}}
+    {{- $path := printf "%v/%v" $.dir .Name -}}
+    {{- if .IsDir -}}
+      {{- template "base-load-css-js-dir" (dict "dir" $path) -}}
+    {{- else -}}
+      {{- template "base-load-css-js-file" (dict "path" $path "name" .Name) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- range (slice "/themes" "/assets" "/static") }}
+  {{- if (fileExists .) -}}
+  {{ template "base-load-css-js-dir" (dict "dir" .) }}
+  {{- end -}}
+{{ end -}}
+
+<!-- Add all the JSON assets. -->
+{{- if $.Site.Data.hopin -}}
+{{- range $.Site.Data.hopin -}}
+
+  {{- if .css -}}
+
+  {{- range .css.sync -}}
+  <link rel="stylesheet" href="{{- . -}}">
+  {{ end -}}
+  {{- range .css.async -}}
+  <link rel="stylesheet" href="{{- . -}}">
+  {{ end -}}
+  {{- range .css.preload -}}
+  <link rel="stylesheet" href="{{- . -}}">
+  {{ end -}}
+
+  {{- end -}}
+
+  {{- if .js -}}
+
+  {{- range .js.sync -}}
+  <script type="text/javascript" src="{{- . -}}"></script>
+  {{ end -}}
+  {{- range .js.async -}}
+  <script type="text/javascript" src="{{- . -}}"></script>
+  {{ end -}}
+  {{- range .js.preload -}}
+  <script type="text/javascript" src="{{- . -}}"></script>
+  {{ end -}}
+
+  {{- end -}}
+
+{{ end }}
+{{ end -}}
