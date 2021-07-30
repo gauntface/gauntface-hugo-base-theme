@@ -1,11 +1,11 @@
 {{- define "base-load-css-js-add-css" -}}
-  {{ if (strings.HasSuffix $path ".css") }}
+  {{ if (strings.HasSuffix $link ".css") }}
   <link rel="stylesheet" href="$link">
   {{ end }}
 {{- end -}}
 
 {{- define "base-load-css-js-add-js" -}}
-  {{ if (strings.HasSuffix $path ".js") }}
+  {{ if (strings.HasSuffix $link ".js") }}
   <script type="module" type="text/javascript" src="{{ $link }}"></script>
   {{ end }}
 {{- end -}}
