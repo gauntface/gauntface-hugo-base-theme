@@ -1,6 +1,6 @@
 {{- define "base-load-css-js-add-css" -}}
   {{ if (strings.HasSuffix $.link ".css") }}
-  <link rel="stylesheet" href="$.link">
+  <link rel="stylesheet" href="{{ $.link }}">
   {{ end }}
 {{- end -}}
 
@@ -29,12 +29,12 @@
 {{- end -}}
 
 {{- define "base-load-css-js-file" -}}
-  {{ if in $.path "assets" }}
-    {{- $sections := split $.path "assets" -}}
+  {{ if in $.path "assets/" }}
+    {{- $sections := split $.path "assets/" -}}
     {{- $path := index $sections 1 -}}
     {{ template "base-load-css-js-add-asset" (dict "path" $path) }}
-  {{ else if in $.path "static" }}
-    {{- $sections := split $.path "static" -}}
+  {{ else if in $.path "static/" }}
+    {{- $sections := split $.path "static/" -}}
     {{- $path := index $sections 1 -}}
     {{ template "base-load-css-js-add-css" (dict "link" $path)}}
     {{ template "base-load-css-js-add-js" (dict "link" $path)}}
