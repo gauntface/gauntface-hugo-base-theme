@@ -36,6 +36,7 @@
   {{ else if in $.path "static/" }}
     {{- $sections := split $.path "static/" -}}
     {{- $path := index $sections 1 -}}
+    {{- $path := printf "/%v" $path -}}
     {{ template "base-load-css-js-add-css" (dict "link" $path)}}
     {{ template "base-load-css-js-add-js" (dict "link" $path)}}
   {{ end }}
