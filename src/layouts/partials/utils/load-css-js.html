@@ -1,6 +1,10 @@
 {{- define "base-load-css-js-add-css" -}}
   {{ if (strings.HasSuffix $.link ".css") }}
+  {{ if (strings.HasSuffix $.link ".print.css") }}
+  <link rel="stylesheet" href="{{ $.link }}" media="print">
+  {{ else }}
   <link rel="stylesheet" href="{{ $.link }}">
+  {{ end }}
   {{ end }}
 {{- end -}}
 
