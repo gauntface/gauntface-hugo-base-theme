@@ -1,18 +1,19 @@
 {
   "scripts": {
     "build": "rm -rf build/ && mkdir -p build/ && npm run copy && tsc && node rollup.js",
-    "copy": "cp -r src/layouts/ build/layouts/ && cp -r src/assets/ build/assets && cp README.md build/README.md && cp theme.toml build/theme.toml && cp update.sh build/update.sh",
+    "copy": "cp -r src/layouts/ build/layouts/ && cp -r src/assets/ build/assets && cp README.md build/README.md && cp theme.toml build/theme.toml",
     "build-example": "npm run build && rm -rf test/example-site/themes/base-theme/ && rm -rf test/example-site/public && cp -r build test/example-site/themes/base-theme && cd test/example-site && hugo",
-    "test": "npm run build-example && ava ./test/*-test.js --verbose"
+    "test": "npm run build-example && ava ./test/*-test.js --verbose --timeout=2m"
   },
   "devDependencies": {
     "ava": "^3.15.0",
     "glob": "^7.1.7",
     "postcss": "^8.3.6",
-    "postcss-cli": "^8.3.1",
-    "puppeteer": "^10.0.0",
+    "postcss-cli": "9.0.2",
+    "puppeteer": "11.0.0",
     "rollup": "^2.51.2",
     "rollup-plugin-terser": "^7.0.2",
-    "static-server": "^2.2.1"
+    "static-server": "^2.2.1",
+    "typescript": "^4.4.4"
   }
 }

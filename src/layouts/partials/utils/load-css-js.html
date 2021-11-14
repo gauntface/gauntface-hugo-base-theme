@@ -17,7 +17,8 @@
 {{- define "base-load-css-js-add-asset" -}}
   {{- if (strings.HasSuffix $.path ".css") -}}
     {{- if (eq hugo.Environment "production") -}}
-      {{ $style := resources.Get $.path | resources.PostCSS }}
+      {{ $options := dict "noMap" true }}
+      {{ $style := resources.Get $.path | resources.PostCSS $options }}
       {{ template "base-load-css-js-add-css" (dict "link" $style.RelPermalink)}}
     {{- else -}}
       {{ $style := resources.Get $.path }}

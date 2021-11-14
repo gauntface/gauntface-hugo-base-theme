@@ -18,7 +18,8 @@ function startServer() {
 };
 
 let addr;
-let browser
+let browser;
+
 test.before(async (t) => {
   // Server for project
   addr = await startServer();
