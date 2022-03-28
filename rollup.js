@@ -25,7 +25,9 @@ srcFiles.forEach(async (srcFile) => {
     promiseChain = promiseChain.then(async () => {
         const plugins = [
             // Minify the bundled JS
-            terser(),
+            terser({
+                keep_classnames: true,
+            }),
         ];
 
         const bundle = await rollup.rollup({

@@ -5,6 +5,7 @@ class LiteYTEmbed {
   private element: HTMLElement;
   private anchor: HTMLElement;
   private videoID: string;
+  private videoParams: string;
   private preconnected: boolean;
 
   constructor(e: HTMLElement) {
@@ -12,6 +13,7 @@ class LiteYTEmbed {
       this.anchor = e.querySelector('.n-hopin-lite-yt__link');
 
       this.videoID = encodeURIComponent(e.getAttribute('videoid'));
+      this.videoParams = e.getAttribute('videoparams');
       this.preconnected = false;
 
       this.setup();
@@ -29,11 +31,13 @@ class LiteYTEmbed {
   }
 
   addIframe(){
-    const iframeHTML = `<iframe
-    allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen
-    src="https://www.youtube-nocookie.com/embed/${this.videoID}?autoplay=1"
-    style="width:100%;height:100%;border:none;"
-    ></iframe>`;
+    const params = [
+      "autoplay=1",
+    ];
+    if (this.videoParams) {
+      params.push(this.videoParams);
+    }
+    const iframeHTML = `<iframe allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen src="https://www.youtube-nocookie.com/embed/${this.videoID}?${params.join("&")}" style="width:100%;height:100%;border:none;"></iframe>`;
     this.element.removeChild(this.anchor);
     this.element.insertAdjacentHTML('beforeend', iframeHTML);
     this.element.classList.add('n-hopin-lite-yt--activated');
