@@ -58,45 +58,43 @@
   {{- end -}}
 {{- end -}}
 
-{{ if eq hugo.Environment "development" }}
-  <!-- Add all the CSS and JS assets. -->
-  {{- range (slice "/themes" "/assets" "/static") }}
-    {{- if (fileExists .) -}}
-    {{ template "base-load-css-js-dir" (dict "dir" .) }}
-    {{- end -}}
+<!-- Add all the CSS and JS assets. -->
+{{- range (slice "/themes" "/assets" "/static") }}
+  {{- if (fileExists .) -}}
+  {{ template "base-load-css-js-dir" (dict "dir" .) }}
+  {{- end -}}
+{{ end -}}
+
+<!-- Add all the JSON assets. -->
+{{- if $.Site.Data.hopin -}}
+{{- range $.Site.Data.hopin -}}
+
+  {{- if .css -}}
+  {{- range .css.sync -}}
+  <link rel="stylesheet" {{ printf  "href=%q" . | safeHTMLAttr }}>
+  {{ end -}}
+  {{- range .css.async -}}
+  <link rel="stylesheet" {{ printf  "href=%q" . | safeHTMLAttr }}>
+  {{ end -}}
+  {{- range .css.preload -}}
+  <link rel="stylesheet" {{ printf  "href=%q" . | safeHTMLAttr }}>
   {{ end -}}
 
-  <!-- Add all the JSON assets. -->
-  {{- if $.Site.Data.hopin -}}
-  {{- range $.Site.Data.hopin -}}
+  {{- end -}}
 
-    {{- if .css -}}
-    {{- range .css.sync -}}
-    <link rel="stylesheet" {{ printf  "href=%q" . | safeHTMLAttr }}>
-    {{ end -}}
-    {{- range .css.async -}}
-    <link rel="stylesheet" {{ printf  "href=%q" . | safeHTMLAttr }}>
-    {{ end -}}
-    {{- range .css.preload -}}
-    <link rel="stylesheet" {{ printf  "href=%q" . | safeHTMLAttr }}>
-    {{ end -}}
+  {{- if .js -}}
 
-    {{- end -}}
+  {{- range .js.sync -}}
+  <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
+  {{ end -}}
+  {{- range .js.async -}}
+  <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
+  {{ end -}}
+  {{- range .js.preload -}}
+  <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
+  {{ end -}}
 
-    {{- if .js -}}
+  {{- end -}}
 
-    {{- range .js.sync -}}
-    <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
-    {{ end -}}
-    {{- range .js.async -}}
-    <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
-    {{ end -}}
-    {{- range .js.preload -}}
-    <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
-    {{ end -}}
-
-    {{- end -}}
-
-  {{ end }}
-  {{ end }}
-{{ end -}}
+{{ end }}
+{{ end }}
