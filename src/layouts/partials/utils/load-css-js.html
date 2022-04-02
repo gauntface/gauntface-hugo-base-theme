@@ -38,7 +38,7 @@
     {{- $sections := split $.path "assets/" -}}
     {{- $path := index $sections 1 -}}
     {{ template "base-load-css-js-add-asset" (dict "path" $path) }}
-  {{ else if in $.path "static/" }}
+  {{ else if and (in $.path "static/") (eq hugo.Environment "development") }}
     {{- $sections := split $.path "static/" -}}
     {{- $path := index $sections 1 -}}
     {{- $path := printf "/%v" $path -}}
@@ -97,4 +97,4 @@
   {{- end -}}
 
 {{ end }}
-{{ end }}
+{{ end -}}
