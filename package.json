@@ -2,7 +2,7 @@
   "scripts": {
     "build": "rm -rf build/ && mkdir -p build/ && npm run copy && tsc && node rollup.js",
     "copy": "cp -r src/layouts/ build/layouts/ && cp -r src/assets/ build/assets && cp README.md build/README.md && cp theme.toml build/theme.toml",
-    "build-example": "npm run build && rm -rf test/example-site/themes/base-theme/ && rm -rf test/example-site/public && cp -r build test/example-site/themes/base-theme && cd test/example-site && hugo",
+    "build-example": "npm run build && rm -rf test/example-site/themes/base-theme/ && rm -rf test/example-site/public && cp -r build test/example-site/themes/base-theme && cd test/example-site && hugo --environment development",
     "test": "npm run build-example && ava ./test/*-test.js --verbose --timeout=2m"
   },
   "devDependencies": {
