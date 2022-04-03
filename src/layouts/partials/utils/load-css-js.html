@@ -1,10 +1,10 @@
 {{- define "base-load-css-js-add-css" -}}
   {{ if (strings.HasSuffix $.link ".css") }}
-  {{ if (strings.HasSuffix $.link ".print.css") }}
-  <link rel="stylesheet" href="{{ $.link }}" media="print">
-  {{ else }}
-  <link rel="stylesheet" href="{{ $.link }}">
-  {{ end }}
+    {{ if (strings.HasSuffix $.link ".print.css") }}
+    <link rel="stylesheet" href="{{ $.link }}" media="print">
+    {{ else }}
+    <link rel="stylesheet" href="{{ $.link }}">
+    {{ end }}
   {{ end }}
 {{- end -}}
 
@@ -19,7 +19,7 @@
     {{- if (eq hugo.Environment "production") -}}
       {{ $options := dict "noMap" true }}
       {{ $style := resources.Get $.path | resources.PostCSS $options }}
-      {{ template "base-load-css-js-add-css" (dict "link" $style.RelPermalink)}}
+      {{ $style.Publish }}
     {{- else -}}
       {{ $style := resources.Get $.path }}
       {{ template "base-load-css-js-add-css" (dict "link" $style.RelPermalink)}}
@@ -38,7 +38,7 @@
     {{- $sections := split $.path "assets/" -}}
     {{- $path := index $sections 1 -}}
     {{ template "base-load-css-js-add-asset" (dict "path" $path) }}
-  {{ else if and (in $.path "static/") (eq hugo.Environment "development") }}
+  {{ else if (in $.path "static/") }}
     {{- $sections := split $.path "static/" -}}
     {{- $path := index $sections 1 -}}
     {{- $path := printf "/%v" $path -}}
@@ -51,50 +51,60 @@
   {{- range (readDir $.dir) -}}
     {{- $path := printf "%v/%v" $.dir .Name -}}
     {{- if .IsDir -}}
-      {{- template "base-load-css-js-dir" (dict "dir" $path) -}}
+      {{- if or (ne .Name "static") (eq hugo.Environment "development") -}}
+        {{- template "base-load-css-js-dir" (dict "dir" $path) -}}
+      {{- end -}}
     {{- else -}}
       {{- template "base-load-css-js-file" (dict "path" $path "name" .Name) -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
 
+{{- define "base-load-css-js-slice" -}}
+  {{- range $.slice }}
+    {{- if (fileExists .) -}}
+    {{ template "base-load-css-js-dir" (dict "dir" .) }}
+    {{- end -}}
+  {{ end -}}
+{{- end -}}
+
 <!-- Add all the CSS and JS assets. -->
-{{- range (slice "/themes" "/assets" "/static") }}
-  {{- if (fileExists .) -}}
-  {{ template "base-load-css-js-dir" (dict "dir" .) }}
-  {{- end -}}
-{{ end -}}
+{{- if eq hugo.Environment "development" }}
+  {{- template "base-load-css-js-slice" (dict "slice" (slice "/themes" "/assets" "/static")) -}}
 
-<!-- Add all the JSON assets. -->
-{{- if $.Site.Data.hopin -}}
-{{- range $.Site.Data.hopin -}}
+  <!-- Add all the JSON assets. -->
+  {{- if $.Site.Data.hopin -}}
+  {{- range $.Site.Data.hopin -}}
 
-  {{- if .css -}}
-  {{- range .css.sync -}}
-  <link rel="stylesheet" {{ printf  "href=%q" . | safeHTMLAttr }}>
+    {{- if .css -}}
+    {{- range .css.sync -}}
+    <link rel="stylesheet" {{ printf  "href=%q" . | safeHTMLAttr }}>
+    {{ end -}}
+    {{- range .css.async -}}
+    <link rel="stylesheet" {{ printf  "href=%q" . | safeHTMLAttr }}>
+    {{ end -}}
+    {{- range .css.preload -}}
+    <link rel="stylesheet" {{ printf  "href=%q" . | safeHTMLAttr }}>
+    {{ end -}}
+
+    {{- end -}}
+
+    {{- if .js -}}
+
+    {{- range .js.sync -}}
+    <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
+    {{ end -}}
+    {{- range .js.async -}}
+    <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
+    {{ end -}}
+    {{- range .js.preload -}}
+    <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
+    {{ end -}}
+
+    {{- end -}}
+
+  {{ end }}
   {{ end -}}
-  {{- range .css.async -}}
-  <link rel="stylesheet" {{ printf  "href=%q" . | safeHTMLAttr }}>
-  {{ end -}}
-  {{- range .css.preload -}}
-  <link rel="stylesheet" {{ printf  "href=%q" . | safeHTMLAttr }}>
-  {{ end -}}
-
-  {{- end -}}
-
-  {{- if .js -}}
-
-  {{- range .js.sync -}}
-  <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
-  {{ end -}}
-  {{- range .js.async -}}
-  <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
-  {{ end -}}
-  {{- range .js.preload -}}
-  <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
-  {{ end -}}
-
-  {{- end -}}
-
-{{ end }}
-{{ end -}}
+{{- else -}}
+  {{- template "base-load-css-js-slice" (dict "slice" (slice "/themes" "/assets")) -}}
+{{- end -}}
