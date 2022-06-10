@@ -67,6 +67,8 @@ test('css links', async (t) => {
     linkHrefs.push(href);
   }
 
+  linkHrefs.sort();
+
   t.deepEqual(linkHrefs, [
     `${addr}/base/html/iframe.css`,
     `${addr}/base/html/img.css`,
@@ -94,6 +96,8 @@ test('js scripts', async (t) => {
     const href = await l.evaluate((l) => l.src);
     linkHrefs.push(href);
   }
+
+  linkHrefs.sort();
 
   t.deepEqual(linkHrefs, [
     `${addr}/base/js/bootstrap/always-async.js`,

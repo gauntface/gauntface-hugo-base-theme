@@ -12,6 +12,6 @@
   <link rel="shortcut icon" type="image/png" href="/favicon-32x32.png" sizes="32x32"/>
   <link rel="shortcut icon" type="image/png" href="/favicon-128x128.png" sizes="128x128"/>
   {{ if or (eq hugo.Environment "development") (eq .RelPermalink "/") }}
-  {{ partialCached "utils/load-css-js.html" . }}
+  {{ partial "utils/load-css-js.html" . }}
   {{ end }}
 </head>

@@ -61,16 +61,19 @@
 {{- end -}}
 
 {{- define "base-load-css-js-slice" -}}
-  {{- range $.slice }}
-    {{- if (fileExists .) -}}
-    {{ template "base-load-css-js-dir" (dict "dir" .) }}
+  {{- range (readDir "/") -}}
+    {{- $name := .Name -}}
+    {{- range $.slice -}}
+      {{- if eq $name . -}}
+        {{ template "base-load-css-js-dir" (dict "dir" .) }}
+      {{- end -}}
     {{- end -}}
-  {{ end -}}
+  {{- end -}}
 {{- end -}}
 
 <!-- Add all the CSS and JS assets. -->
 {{- if eq hugo.Environment "development" }}
-  {{- template "base-load-css-js-slice" (dict "slice" (slice "/themes" "/assets" "/static")) -}}
+  {{- template "base-load-css-js-slice" (dict "slice" (slice "themes" "assets" "static")) -}}
 
   <!-- Add all the JSON assets. -->
   {{- if $.Site.Data.hopin -}}
