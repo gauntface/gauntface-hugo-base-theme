@@ -14,6 +14,14 @@
   {{ end }}
 {{- end -}}
 
+{{- define "base-load-css-js-add-ts" -}}
+  {{ if (strings.HasSuffix $.path ".ts") }}
+  {{ $script := resources.Get $.path | js.Build }}
+  <script type="module" type="text/javascript" src="{{ $script.RelPermalink }}"></script>
+  <h1>Hai Matt "{{ $script.RelPermalink }}"</h1>
+  {{ end }}
+{{- end -}}
+
 {{- define "base-load-css-js-add-asset" -}}
   {{- if (strings.HasSuffix $.path ".css") -}}
     {{- if (eq hugo.Environment "production") -}}
@@ -30,6 +38,11 @@
   {{- if (strings.HasSuffix $.path ".js") -}}
     {{ $script := resources.Get $.path }}
     {{ template "base-load-css-js-add-js" (dict "link" $script.RelPermalink)}}
+  {{ end -}}
+
+  <!-- Process and add all the TS files. -->
+  {{- if (strings.HasSuffix $.path ".ts") -}}
+    {{ template "base-load-css-js-add-ts" (dict "path" $.path)}}
   {{ end -}}
 {{- end -}}
 
