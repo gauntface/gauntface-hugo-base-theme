@@ -61,6 +61,7 @@ test('css links', async (t) => {
   files.sort();
 
   t.deepEqual(files, [
+    `base/ham/n-ham-c-lite-yt-preload.css`,
     `base/html/iframe.css`,
     `base/html/img.css`,
     `base/html/p.css`,
@@ -90,10 +91,7 @@ test('js scripts', async (t) => {
   linkHrefs.sort();
 
   t.deepEqual(linkHrefs, [
-    `${addr}/base/js/bootstrap/always-async.js`,
-    `${addr}/base/js/bootstrap/always-preload.js`,
-    `${addr}/base/js/third_party/lite-vimeo-embed/n-hopin-lite-vi-preload.js`,
-    `${addr}/base/js/third_party/lite-youtube-embed/n-hopin-lite-yt-preload.js`,
     `${addr}/js/theme-assets-example.js`,
+    `${addr}/js/theme-assets-ts-example.js`,
   ]);
 })
