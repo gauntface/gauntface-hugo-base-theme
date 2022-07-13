@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "rm -rf build/ && mkdir -p build/ && npm run copy && tsc && node rollup.js",
+    "build": "rm -rf build/ && mkdir -p build/ && npm run copy",
     "copy": "cp -r src/layouts/ build/layouts/ && cp -r src/assets/ build/assets && cp README.md build/README.md && cp theme.toml build/theme.toml",
     "build-example-dev": "npm run build && rm -rf test/example-site/themes/base-theme/ && rm -rf test/example-site/public && cp -r build test/example-site/themes/base-theme && cd test/example-site && hugo --environment development",
     "build-example-prod": "npm run build && rm -rf test/example-site/themes/base-theme/ && rm -rf test/example-site/public && cp -r build test/example-site/themes/base-theme && cd test/example-site && hugo",
@@ -15,9 +15,6 @@
     "postcss-cli": "10.0.0",
     "postcss-css-variables": "0.18.0",
     "puppeteer": "15.3.2",
-    "rollup": "2.76.0",
-    "rollup-plugin-terser": "7.0.2",
-    "static-server": "2.2.1",
-    "typescript": "4.7.4"
+    "static-server": "2.2.1"
   }
 }

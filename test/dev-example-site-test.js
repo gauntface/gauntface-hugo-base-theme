@@ -59,7 +59,6 @@ test('css links', async (t) => {
   await page.goto(`${addr}`);
 
   const links = await page.$$('link[rel="stylesheet"]')
-  t.deepEqual(links.length, 9);
 
   const linkHrefs = [];
   for(const l of links) {
@@ -70,6 +69,7 @@ test('css links', async (t) => {
   linkHrefs.sort();
 
   t.deepEqual(linkHrefs, [
+    `${addr}/base/ham/n-ham-c-lite-yt-preload.css`,
     `${addr}/base/html/iframe.css`,
     `${addr}/base/html/img.css`,
     `${addr}/base/html/p.css`,
@@ -89,7 +89,6 @@ test('js scripts', async (t) => {
   await page.goto(`${addr}`);
 
   const links = await page.$$('script')
-  t.deepEqual(links.length, 7);
 
   const linkHrefs = [];
   for(const l of links) {
@@ -100,11 +99,8 @@ test('js scripts', async (t) => {
   linkHrefs.sort();
 
   t.deepEqual(linkHrefs, [
-    `${addr}/base/js/bootstrap/always-async.js`,
-    `${addr}/base/js/bootstrap/always-preload.js`,
-    `${addr}/base/js/third_party/lite-vimeo-embed/n-hopin-lite-vi-preload.js`,
-    `${addr}/base/js/third_party/lite-youtube-embed/n-hopin-lite-yt-preload.js`,
     `${addr}/js/theme-assets-example.js`,
+    `${addr}/js/theme-assets-ts-example.js`,
     `${addr}/js/theme-static-example.js`,
     `${addr}/js/top-static-example.js`,
   ]);
