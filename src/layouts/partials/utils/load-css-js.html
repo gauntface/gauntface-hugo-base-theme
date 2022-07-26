@@ -16,7 +16,7 @@
 
 {{- define "base-load-css-js-add-ts" -}}
   {{ if (strings.HasSuffix $.path ".ts") }}
-    {{ $options := dict "minify" true }}
+    {{ $options := dict "minify" true "params" (dict "Environment" hugo.Environment) }}
     {{ $script := resources.Get $.path | js.Build $options }}
     <script type="module" type="text/javascript" src="{{ $script.RelPermalink }}"></script>
   {{ end }}
