@@ -19,12 +19,14 @@ jobs:
         hugo-version: '0.80.0'
 
     - uses: actions/checkout@v3
+      with:
+        repository: gauntface/hugo-base-theme-test
+    - uses: actions/checkout@v3
+      with:
+        path: example-site/themes/base-theme/
 
     - name: Install
       run: npm install
-
-    - name: Build
-      run: npm run build
 
     - name: Test
       run: npm run test
