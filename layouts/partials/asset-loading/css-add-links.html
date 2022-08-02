@@ -1,0 +1,32 @@
+{{- $mediaCSS := (dict) -}}
+{{- $allCSS := (slice) -}}
+
+{{- range $.Files -}}
+  {{- $pathParts := split . "/" -}}
+  {{- $filename := last 1 $pathParts -}}
+  {{- $filenameParts := split (index $filename 0) "." -}}
+  {{- if eq (len $filenameParts) 3 -}}
+    {{- $media := index $filenameParts 1 -}}
+    {{- $mediaSlice := index $mediaCSS $media -}}
+    {{- $mediaSlice = $mediaSlice | append . -}}
+    {{- $mediaCSS = merge $mediaCSS (dict $media $mediaSlice) -}}
+  {{- else -}}
+    {{- $allCSS = $allCSS | append . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $allCSS = sort $allCSS -}}
+{{- range $key, $value := $mediaCSS -}}
+  {{- $mediaCSS = merge $mediaCSS (dict $key (sort $value)) -}}
+{{- end -}}
+
+
+{{- range $allCSS -}}
+  {{ partial "asset-loading/css-add-link.html" (dict "Path" .) }}
+{{ end }}
+{{ range $key, $value := $mediaCSS -}}
+  {{- $media := $key -}}
+  {{- range $value -}}
+    {{ partial "asset-loading/css-add-link.html" (dict "Path" . "Media" $media) }}
+  {{ end }}
+{{ end -}}

@@ -1,0 +1,79 @@
+{{- define "partials/_bt-path-to-asset" -}}
+  {{ $asset := "" }}
+  {{- if in $.Path "assets/" -}}
+    {{- $sections := split $.Path "assets/" -}}
+    {{- $path := index $sections 1 -}}
+    {{- $asset = resources.Get $path -}}
+  {{- end -}}
+  {{- return $asset -}}
+{{- end -}}
+
+{{- define "partials/_bt-path-to-href" -}}
+  {{ $href := $.Path }}
+  {{- if in $.Path "assets/" -}}
+    {{- $sections := split $.Path "assets/" -}}
+    {{- $path := index $sections 1 -}}
+    {{- $asset := resources.Get $path -}}
+    {{- $href = $asset.RelPermalink -}}
+  {{- else if in $.Path "static/" -}}
+    {{- $sections := split $.Path "static/" -}}
+    {{- $path := index $sections 1 -}}
+    {{- $href = printf "/%v" $path -}}
+  {{- end -}}
+  {{- return $href -}}
+{{- end -}}
+
+{{- define "_bt-search-for-assets" -}}
+  {{- range (readDir $.Dir) -}}
+    {{- $path := printf "%v/%v" $.Dir .Name -}}
+    {{- if .IsDir -}}
+      {{- if or (ne .Name "static") (eq hugo.Environment "development") -}}
+        {{ template "_bt-search-for-assets" (dict "Dir" $path "Scratch" $.Scratch) }}
+      {{- end -}}
+    {{- else -}}
+      {{- if (strings.HasSuffix $path ".css") -}}
+        {{ $.Scratch.Set "css" ($.Scratch.Get "css" | append $path) }}
+      {{- else if (strings.HasSuffix $path ".js") -}}
+        {{ $.Scratch.Set "js" ($.Scratch.Get "js" | append $path) }}
+      {{- else if (strings.HasSuffix $path ".ts") -}}
+        {{ $.Scratch.Set "ts" ($.Scratch.Get "ts" | append $path) }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- define "_bt-init-search" -}}
+  {{- range (readDir "/") -}}
+    {{- $name := .Name -}}
+    {{- range $.DirsToCheck -}}
+      {{- if eq $name . -}}
+        {{ template "_bt-search-for-assets" (dict "Dir" $name "Scratch" $.Scratch) }}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+<!-- Init Scratch Space -->
+{{- $filesScratch := newScratch -}}
+{{- $filesScratch.Set "css" (slice) -}}
+{{- $filesScratch.Set "js" (slice) -}}
+{{- $filesScratch.Set "ts" (slice) -}}
+
+<!-- Scan for files -->
+{{- if eq hugo.Environment "production" -}}
+  <!-- Only scan assets that need preprocessing when in prod -->
+  {{- template "_bt-init-search" (dict "DirsToCheck" (slice "themes" "assets") "Scratch" $filesScratch) -}}
+{{- else -}}
+  {{- template "_bt-init-search" (dict "DirsToCheck" (slice "themes" "assets" "static") "Scratch" $filesScratch) -}}
+{{- end -}}
+
+{{- if (eq hugo.Environment "production") -}}
+  <!-- Run through PostCSS -->
+  {{ partial "asset-loading/css-process-files.html" (dict "Files" ($filesScratch.Get "css")) }}
+  {{ partial "asset-loading/js-process-files.html"  (dict "Files" ($filesScratch.Get "js"))  }}
+  {{ partial "asset-loading/js-process-files.html"  (dict "Files" ($filesScratch.Get "ts"))  }}
+{{- else -}}
+  {{ partial "asset-loading/css-add-links.html" (dict "Files" ($filesScratch.Get "css")) }}
+  {{ partial "asset-loading/js-add-links.html"  (dict "Files" ($filesScratch.Get "js"))  }}
+  {{ partial "asset-loading/ts-add-links.html"  (dict "Files" ($filesScratch.Get "ts"))  }}
+{{- end -}}
