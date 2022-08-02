@@ -1,0 +1,14 @@
+{{- $json := index $.Site.Data "base-theme" -}}
+{{- range $json -}}
+  {{- range $key, $value := .css -}}
+    {{- range $value -}}
+      <link rel="stylesheet" {{ printf  "href=%q" . | safeHTMLAttr }}>
+    {{ end -}}
+  {{ end -}}
+
+  {{- range $key, $value := .js -}}
+    {{- range $value -}}
+      <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
+    {{ end -}}
+  {{ end -}}
+{{- end -}}

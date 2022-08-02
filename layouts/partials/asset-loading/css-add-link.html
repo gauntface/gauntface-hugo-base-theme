@@ -1,0 +1,6 @@
+{{- $href := partial "_bt-path-to-href" (dict "Path" $.Path) -}}
+{{- if $.Media -}}
+<link rel="stylesheet" href="{{ $href }}" media="{{ $.Media }}">
+{{- else -}}
+<link rel="stylesheet" href="{{ $href }}">
+{{- end -}}

@@ -1,0 +1,7 @@
+{{- $options := dict "params" (dict "Environment" hugo.Environment) -}}
+
+{{- range $.Files -}}
+{{- $asset := partial "_bt-path-to-asset" (dict "Path" .) -}}
+{{ $script := $asset | js.Build $options }}
+<script type="module" type="text/javascript" src="{{ $script.RelPermalink }}"></script>
+{{- end -}}
