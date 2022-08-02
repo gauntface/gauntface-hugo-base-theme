@@ -1,13 +1,13 @@
-{{ $options := dict "minify" true "params" (dict "Environment" hugo.Environment) }}
+{{- $options := dict "minify" true "params" (dict "Environment" hugo.Environment) -}}
 
-{{ range $.Files }}
+{{- range $.Files -}}
   {{- $pathParts := split . "/" -}}
   {{- $filenames := last 1 $pathParts -}}
-  {{ if not (hasPrefix (index $filenames 0) "_") }}
-    {{ $asset := partial "partials/_bt-path-to-asset" (dict "Path" .) }}
-    {{ if $asset }}
-      {{ $script := $asset | js.Build $options }}
-      {{ $script.Publish }}
-    {{ end }}
-  {{ end }}
-{{ end }}
+  {{- if not (hasPrefix (index $filenames 0) "_") -}}
+    {{- $asset := partial "partials/_bt-path-to-asset" (dict "Path" .) -}}
+    {{- if $asset -}}
+      {{- $script := $asset | js.Build $options -}}
+      {{- $script.Publish -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

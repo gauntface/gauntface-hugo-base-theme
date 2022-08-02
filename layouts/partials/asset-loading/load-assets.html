@@ -67,13 +67,13 @@
   {{- template "_bt-init-search" (dict "DirsToCheck" (slice "themes" "assets" "static") "Scratch" $filesScratch) -}}
 {{- end -}}
 
-{{- if (eq hugo.Environment "production") -}}
-  <!-- Run through PostCSS -->
-  {{ partial "asset-loading/css-process-files.html" (dict "Files" ($filesScratch.Get "css")) }}
-  {{ partial "asset-loading/js-process-files.html"  (dict "Files" ($filesScratch.Get "js"))  }}
-  {{ partial "asset-loading/js-process-files.html"  (dict "Files" ($filesScratch.Get "ts"))  }}
-{{- else -}}
+{{- if (eq hugo.Environment "development") -}}
   {{ partial "asset-loading/css-add-links.html" (dict "Files" ($filesScratch.Get "css")) }}
   {{ partial "asset-loading/js-add-links.html"  (dict "Files" ($filesScratch.Get "js"))  }}
   {{ partial "asset-loading/ts-add-links.html"  (dict "Files" ($filesScratch.Get "ts"))  }}
+  {{ partial "asset-loading/json-add.html" . }}
+{{- else -}}
+  {{ partial "asset-loading/css-process-files.html" (dict "Files" ($filesScratch.Get "css")) }}
+  {{ partial "asset-loading/js-process-files.html"  (dict "Files" ($filesScratch.Get "js"))  }}
+  {{ partial "asset-loading/js-process-files.html"  (dict "Files" ($filesScratch.Get "ts"))  }}
 {{- end -}}

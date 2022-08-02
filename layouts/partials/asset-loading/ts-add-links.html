@@ -1,4 +1,4 @@
-{{ $options := dict "params" (dict "Environment" hugo.Environment) }}
+{{- $options := dict "params" (dict "Environment" hugo.Environment) -}}
 
 {{- range $.Files -}}
 {{- $asset := partial "_bt-path-to-asset" (dict "Path" .) -}}

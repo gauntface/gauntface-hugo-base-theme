@@ -1,4 +1,4 @@
 {{- range $.Files -}}
 {{- $href := partial "_bt-path-to-href" (dict "Path" .) -}}
 <script type="module" type="text/javascript" src="{{ $href }}"></script>
-{{- end -}}
+{{ end -}}
