@@ -26,7 +26,14 @@ jobs:
         path: example-site/themes/base-theme/
 
     - name: Install
-      run: npm install
+      run: |
+        npm install
+        npm install stylelint-config-standard
 
     - name: Test
       run: npm run test
+
+    - name: Lint
+      run: |
+        cd example-site/themes/base-theme/
+        npx stylelint '**/*.css'
