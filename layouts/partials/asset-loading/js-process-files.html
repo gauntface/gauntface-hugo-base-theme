@@ -1,5 +1,13 @@
 {{- $options := dict "minify" true "params" (dict "Environment" hugo.Environment) -}}
 
+{{- $jsonFiles := index $.Site.Data "base-theme" -}}
+{{- if $jsonFiles -}}
+  {{- $esbuild := index $jsonFiles "esbuild" -}}
+  {{- if $esbuild -}}
+    {{- $options = merge $options $esbuild -}}
+  {{- end -}}
+{{- end -}}
+
 {{- range $.Files -}}
   {{- $pathParts := split . "/" -}}
   {{- $filenames := last 1 $pathParts -}}
