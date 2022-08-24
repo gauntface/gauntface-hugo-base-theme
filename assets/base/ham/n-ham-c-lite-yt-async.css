@@ -2,7 +2,7 @@
 	position: relative;
 }
 
-.n-ham-c-lite-yt::after {
+.n-ham-c-lite-yt:not(.n-ham-c-lite-yt--activated)::after {
 	content: "";
 	width: 14%;
 	height: 14%;
