@@ -47,9 +47,3 @@ Create a file in `data/base-theme/esbuild.json` with the following structure:
 ```
 
 This will be passed to esbuild.
-
-## Linting
-
-```shell
-npx stylelint '**/*.css' --fix
-```
