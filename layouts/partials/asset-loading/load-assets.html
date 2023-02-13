@@ -73,6 +73,7 @@
   {{ partial "asset-loading/ts-add-links.html"  (dict "Files" ($filesScratch.Get "ts"))  }}
   {{ partial "asset-loading/json-add.html" . }}
 {{- else -}}
+  {{ partial "asset-loading/css-add-links.html" (dict "Files" ($filesScratch.Get "css")) }}
   {{ partial "asset-loading/js-process-files.html"  (dict "Files" ($filesScratch.Get "js") "Site" $.Site)  }}
   {{ partial "asset-loading/js-process-files.html"  (dict "Files" ($filesScratch.Get "ts") "Site" $.Site)  }}
 {{- end -}}
