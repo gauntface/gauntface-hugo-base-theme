@@ -8,7 +8,11 @@
 
   {{- range $key, $value := .js -}}
     {{- range $value -}}
+      {{- if isset . "src" -}}
+      <script type="text/javascript" {{ printf  "src=%q" .src | safeHTMLAttr }} {{range .attributes }}{{ printf  "%v " . | safeHTMLAttr }}{{end}}></script>
+      {{- else -}}
       <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
+      {{- end -}}
     {{ end -}}
   {{ end -}}
 {{- end -}}
