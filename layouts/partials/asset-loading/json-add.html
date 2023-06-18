@@ -2,17 +2,13 @@
 {{- range $json -}}
   {{- range $key, $value := .css -}}
     {{- range $value -}}
-      <link rel="stylesheet" {{ printf  "href=%q" . | safeHTMLAttr }}>
+      <link rel="stylesheet" {{ printf  "href=%q" .src | safeHTMLAttr }} {{range .attributes }}{{ printf  "%v=%q " .key .value | safeHTMLAttr }}{{end}}>
     {{ end -}}
   {{ end -}}
 
   {{- range $key, $value := .js -}}
     {{- range $value -}}
-      {{- if isset . "src" -}}
-      <script type="text/javascript" {{ printf  "src=%q" .src | safeHTMLAttr }} {{range .attributes }}{{ printf  "%v " . | safeHTMLAttr }}{{end}}></script>
-      {{- else -}}
-      <script type="text/javascript" {{ printf  "src=%q" . | safeHTMLAttr }}></script>
-      {{- end -}}
+      <script type="text/javascript" {{ printf  "src=%q" .src | safeHTMLAttr }} {{range .attributes }}{{ printf  "%v=%q " .key .value | safeHTMLAttr }}{{end}}></script>
     {{ end -}}
   {{ end -}}
 {{- end -}}
