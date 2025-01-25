@@ -6,3 +6,6 @@
 {{ if $img -}}
 <meta property="og:image" content="{{ $img }}">
 {{- end }}
+{{ if .Site.Params.fediverseCreator -}}
+<meta name="fediverse:creator" content="{{ .Site.Params.fediverseCreator }}">
+{{- end }}
