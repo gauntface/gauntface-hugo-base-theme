@@ -5,8 +5,4 @@
 {{- if .Params.socialImg }}{{ $img = .Params.socialImg }}{{ else if .Params.mainImage }}{{ $img = .Params.mainImage }}{{ else if .Site.Params.socialimage }}{{ $img = .Site.Params.socialimage }}{{ end -}}
 {{ if $img -}}
 <meta property="og:image" content="{{ $img }}">
-<meta name="twitter:card" content="summary_large_image">
-{{- end }}
-{{ if .Site.Params.twittercreator -}}
-<meta name="twitter:creator" content="{{ .Site.Params.twittercreator }}">
 {{- end }}
